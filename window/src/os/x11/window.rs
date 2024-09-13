@@ -999,13 +999,13 @@ impl XWindowInner {
                 // whatever STRING represents; let's just assume that
                 // the other end is going to handle it correctly.
                 if let Some(text) = self.copy_and_paste.clipboard(clipboard) {
-                    conn.send_request_no_reply(&xcb::x::ChangeProperty {
+                    let _ = conn.send_request_no_reply(&xcb::x::ChangeProperty {
                         mode: PropMode::Replace,
                         window: request.requestor(),
                         property: request.property(),
                         r#type: request.target(),
                         data: text.as_bytes(),
-                    })?;
+                    });
                     // let the requestor know that we set their property
                     request.property()
                 } else {
@@ -1025,7 +1025,7 @@ impl XWindowInner {
             selprop
         );
 
-        conn.send_request_no_reply(&xcb::x::SendEvent {
+        let _ = conn.send_request_no_reply(&xcb::x::SendEvent {
             propagate: true,
             destination: xcb::x::SendEventDest::Window(request.requestor()),
             event_mask: xcb::x::EventMask::empty(),
@@ -1036,7 +1036,7 @@ impl XWindowInner {
                 request.target(),
                 selprop, // the disposition from the operation above
             ),
-        })?;
+        });
 
         Ok(())
     }
