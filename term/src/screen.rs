@@ -660,7 +660,10 @@ impl Screen {
         // changed by the scroll operation.  For normal newline at the bottom
         // of the screen based scrolling, the StableRowIndex does not change,
         // so we use the scroll region bounds to gate the invalidation.
-        if scroll_region.start != 0 || scroll_region.end as usize != self.physical_rows {
+        if scroll_region.start != 0
+            || scroll_region.end as usize != self.physical_rows
+            || !self.allow_scrollback
+        {
             for y in phys_scroll.clone() {
                 self.line_mut(y).update_last_change_seqno(seqno);
             }
