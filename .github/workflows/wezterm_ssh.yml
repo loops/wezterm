@@ -1,16 +1,6 @@
 name: wezterm-ssh
 
 on:
-  pull_request:
-    branches:
-      - main
-    paths:
-      - "wezterm-ssh/**"
-      - "filedescriptor/**"
-      - "pty/**"
-      - "async_ossl/**"
-      - "termwiz/**"
-      - ".github/workflows/wezterm_ssh.yml"
   push:
     branches:
       - main
